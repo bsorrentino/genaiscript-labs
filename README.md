@@ -58,7 +58,7 @@ Comments your code with **local AI** using [GenAIScript]
 
 ### Install script
 
-Download [@commenter.genai.mjs] into a folder configured in `include` property of `~/genaiscript.config.json `
+Download [@commenter.genai.mjs](./@commenter.genai.mjs) into a folder configured in `include` property of [~/genaiscript.config.json](#genaiscriptconfigjson-template)
 
 ### Run script
 
@@ -80,21 +80,19 @@ genaiscript run @commenter <my_typescript_project_path>/**/*.ts
 
 ### Supported languages 
 
-[x] Java
+- [x] Java
    > * class declarations
    > * interface declarations
    > * method declarations
-[x] Javascript
+- [x] Javascript
    > * function declarations
    > * assow function declarations
-[x] Typescript
+- [x] Typescript
    > * function declarations
    > * arrow function declarations
    > * type alias declarations
    > * interface declarations
-
-
-[ ] Swift
+- [ ] Swift
 
 
 
