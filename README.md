@@ -92,7 +92,6 @@ genaiscript run @commenter <my_typescript_project_path>/**/*.ts
    > * arrow function declarations
    > * type alias declarations
    > * interface declarations
-- [ ] Swift
 
 
 
