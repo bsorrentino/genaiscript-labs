@@ -12,11 +12,23 @@ var __export = (target, all) => {
 async function processCode(lang, c, nodes) {
   let numberOfAppliedComment = 0;
   let childFound = c.gotoFirstChild();
+  let prevEndRow = 0;
+  const addEmptyLines = () => {
+    const numEmptyRows = c.startPosition.row - prevEndRow;
+    for (let row = 0; row < numEmptyRows - 1; ++row) {
+      nodes.push({
+        startIndex: c.startIndex,
+        endIndex: c.startIndex,
+        text: ""
+      });
+    }
+  };
   while (childFound) {
     const { nodeType, startIndex, endIndex, startPosition, endPosition } = c;
     console.log(
       `nodeType: ${nodeType}, startIndex: ${startIndex}, endIndex: ${endIndex}, startPosition (row: ${startPosition.row}, column: ${startPosition.column}), endPosition: (row: ${endPosition.row}, column: ${endPosition.column})`
     );
+    addEmptyLines();
     let metadata = {
       startIndex: c.startIndex,
       endIndex: c.endIndex,
@@ -29,6 +41,7 @@ async function processCode(lang, c, nodes) {
       }
     }
     nodes.push(metadata);
+    prevEndRow = c.endPosition.row;
     childFound = c.gotoNextSibling();
   }
   return numberOfAppliedComment > 0;
@@ -72,13 +85,8 @@ var init_commenter_typescript = __esm({
       return isExportStatementDecl(c) ? c.currentNode.descendantsOfType("function_declaration").length > 0 : false;
     };
     isArrowFunctionDecl = (c) => {
-      if (isLexicalDecl(c)) {
-        const c1 = c.currentNode.walk();
-        for (const vd of c1.currentNode.descendantsOfType("variable_declarator")) {
-          for (const ad of vd.descendantsOfType("arrow_function")) {
-            return true;
-          }
-        }
+      if (isLexicalDecl(c) || isExportStatementDecl(c)) {
+        return c.currentNode.descendantsOfType("arrow_function").length > 0;
       }
       return false;
     };
